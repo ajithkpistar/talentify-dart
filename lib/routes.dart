@@ -4,8 +4,7 @@ import 'package:android_istar_app/screens/home/homePage.dart';
 import 'package:android_istar_app/screens/splash/splashPage.dart';
 
 final routes = {
-  '/': (BuildContext context) => new HomeScreen(),
-  '/home': (BuildContext context) => new LoginPage(),
+  '/home': (BuildContext context) => new HomeScreen(),
   '/login': (BuildContext context) => new LoginPage(),
   '/splash': (BuildContext context) => new SplashScreen()
 };

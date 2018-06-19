@@ -1,14 +1,21 @@
+import 'dart:async';
+import 'dart:io';
+import 'package:android_istar_app/models/studentProfile.dart';
+import 'package:android_istar_app/models/tasksObject.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:android_istar_app/utils/customcolors.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:path/path.dart';
 import 'dart:convert';
+import 'package:path_provider/path_provider.dart';
 
 class LoginPage extends StatefulWidget {
-  DemoState createState() => new DemoState();
+  LoginPageState createState() => new LoginPageState();
 }
 
-class DemoState extends State<LoginPage> {
+class LoginPageState extends State<LoginPage> {
   final formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> scaffoldState = new GlobalKey<ScaffoldState>();
 
@@ -283,6 +290,12 @@ class DemoState extends State<LoginPage> {
 
     final form = formKey.currentState;
     if (form.validate()) {
+      try {
+        SystemChannels.textInput.invokeMethod('TextInput.hide');
+      } catch (e) {
+        debugPrint(e.toString());
+      }
+
       form.save();
       print("email:" + _email + " password:" + _password);
       scaffoldState.currentState.showSnackBar(new SnackBar(
@@ -335,7 +348,35 @@ class DemoState extends State<LoginPage> {
         _errorText = parsedMap['istarViksitProComplexKey'];
       });
     } else {
-      Navigator.of(context).pushReplacementNamed("/splash");
+      Map studentMap = json.decode(responseBody)['studentProfile'];
+      StudentProfile studentProfile = new StudentProfile.fromJson(studentMap);
+      print('Howdy, ${studentProfile.id}!');
+
+      List TaskMaps = json.decode(responseBody)['tasks'];
+      print(TaskMaps.length);
+      for (Map items in TaskMaps) {
+        Tasks task = new Tasks.fromJson(items);
+        print('task, ${task.itemType}');
+      }
+
+      _createFolder(studentProfile);
+      //Navigator.of(context).pushReplacementNamed("/splash");
+    }
+  }
+
+  _createFolder(StudentProfile studentProfile) async {
+    Directory _appDocumentsDirectory =
+        await getTemporaryDirectory(); //Directory.systemTemp.createTemp();
+    String path = join(_appDocumentsDirectory.path, "main.db");
+
+    StudentProfileProvider profileProvider = new StudentProfileProvider();
+    await profileProvider.open(path);
+    StudentProfile sp = await profileProvider.insert(studentProfile);
+    print("beforre  ----" + sp.firstName);
+
+    StudentProfile profile = await profileProvider.getStudentProfile(27);
+    if (profile != null) {
+      print("after ----" + profile.firstName);
     }
   }
 }

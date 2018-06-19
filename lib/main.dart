@@ -5,11 +5,35 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:android_istar_app/utils/customcolors.dart';
 import 'second_screen.dart';
-import 'package:android_istar_app/screens/login/loginPage.dart';
 import 'routes.dart';
+import 'dart:io';
 
-void main() {
+import 'package:android_istar_app/models/studentProfile.dart';
+import 'package:android_istar_app/screens/home/homePage.dart';
+import 'package:android_istar_app/screens/splash/splashPage.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
+
+Widget _defaultHome = new HomeScreen();
+
+void main() async {
+  await _evaluateInitialRoute();
   runApp(new MyApp());
+}
+
+_evaluateInitialRoute() async {
+  Directory _appDocumentsDirectory =
+      await getTemporaryDirectory(); //Directory.systemTemp.createTemp();
+  String path = join(_appDocumentsDirectory.path, "main.db");
+
+  StudentProfileProvider profileProvider = new StudentProfileProvider();
+  await profileProvider.open(path);
+  int len = await profileProvider.getStudentProfileCount();
+  if (len == 0) {
+    _defaultHome = new HomeScreen();
+  } else {
+    _defaultHome = new SplashScreen();
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -17,6 +41,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
+      home: _defaultHome,
       routes: routes,
     );
   }
