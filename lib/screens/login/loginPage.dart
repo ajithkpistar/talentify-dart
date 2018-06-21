@@ -1,7 +1,6 @@
-import 'dart:async';
-import 'dart:io';
 import 'package:android_istar_app/models/studentProfile.dart';
 import 'package:android_istar_app/models/tasksObject.dart';
+import 'package:android_istar_app/utils/databaseUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:android_istar_app/utils/customcolors.dart';
@@ -9,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 import 'dart:convert';
-import 'package:path_provider/path_provider.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPageState createState() => new LoginPageState();
@@ -18,16 +16,18 @@ class LoginPage extends StatefulWidget {
 class LoginPageState extends State<LoginPage> {
   final formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> scaffoldState = new GlobalKey<ScaffoldState>();
-
-  String _password, _email;
   double screenHeight, screenWidth;
+  String _password, _email;
+
   bool _obscureText = true;
   bool _showErrorLabel = false;
   String _errorText;
   Color passwordTintColor = CustomColors.theme_color;
+  BuildContext _context;
 
   @override
   Widget build(BuildContext context) {
+    _context = context;
     screenHeight = MediaQuery.of(context).size.height;
     screenWidth = MediaQuery.of(context).size.width;
     // print("width--------" + screenWidth.toString());
@@ -335,11 +335,11 @@ class LoginPageState extends State<LoginPage> {
         .send(request)
         .then((response) => response.stream
             .bytesToString()
-            .then((value) => _onSuccessLogin(value)))
+            .then((value) => _onSuccessLogin(value, context)))
         .catchError((error) => print("Error---" + error.toString()));
   }
 
-  _onSuccessLogin(responseBody) {
+  _onSuccessLogin(responseBody, context) async {
     print("Success---" + responseBody.toString());
     if (responseBody.toString().contains("istarViksitProComplexKey")) {
       Map<String, dynamic> parsedMap = json.decode(responseBody);
@@ -352,31 +352,21 @@ class LoginPageState extends State<LoginPage> {
       StudentProfile studentProfile = new StudentProfile.fromJson(studentMap);
       print('Howdy, ${studentProfile.id}!');
 
-      List TaskMaps = json.decode(responseBody)['tasks'];
-      print(TaskMaps.length);
-      for (Map items in TaskMaps) {
+      List taskMaps = json.decode(responseBody)['tasks'];
+      print(taskMaps.length);
+      for (Map items in taskMaps) {
         Tasks task = new Tasks.fromJson(items);
         print('task, ${task.itemType}');
+        if (task.id != null) {
+          TasksProvider tasksProvider = await new DbHelper().getTasksProvide();
+          await tasksProvider.insert(task);
+        }
       }
 
-      _createFolder(studentProfile);
-      //Navigator.of(context).pushReplacementNamed("/splash");
-    }
-  }
-
-  _createFolder(StudentProfile studentProfile) async {
-    Directory _appDocumentsDirectory =
-        await getTemporaryDirectory(); //Directory.systemTemp.createTemp();
-    String path = join(_appDocumentsDirectory.path, "main.db");
-
-    StudentProfileProvider profileProvider = new StudentProfileProvider();
-    await profileProvider.open(path);
-    StudentProfile sp = await profileProvider.insert(studentProfile);
-    print("beforre  ----" + sp.firstName);
-
-    StudentProfile profile = await profileProvider.getStudentProfile(27);
-    if (profile != null) {
-      print("after ----" + profile.firstName);
+      StudentProfileProvider profileProvider =
+          await new DbHelper().getUserProvide();
+      await profileProvider.insert(studentProfile);
+      Navigator.of(_context).pushReplacementNamed("/splash");
     }
   }
 }

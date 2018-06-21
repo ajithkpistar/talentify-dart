@@ -2,18 +2,19 @@ import 'dart:async';
 import 'package:sqflite/sqflite.dart';
 
 final String tableStudentProfile = "studentpofile";
-final String columnId = "id";
-final String columnemail = "email";
-final String columnfirstName = "firstName";
-final String columnuserType = "userType";
-final String columnbatchRank = "batchRank";
-final String columngender = "gender";
-final String columnisVerified = "isVerified";
-final String columncoins = "coins";
-final String columnmobile = "mobile";
-final String columnexperiencePoints = "experiencePoints";
-final String columndateOfBirth = "dateOfBirth";
-final String columnprofileImage = "profileImage";
+/* column definations */
+final String cId = "id";
+final String cEmail = "email";
+final String cFirstName = "firstName";
+final String cUserType = "userType";
+final String cBatchRank = "batchRank";
+final String cGender = "gender";
+final String cIsVerified = "isVerified";
+final String cCoins = "coins";
+final String cMobile = "mobile";
+final String cExperiencePoints = "experiencePoints";
+final String cDateOfBirth = "dateOfBirth";
+final String cProfileImage = "profileImage";
 
 class StudentProfile {
   int id;
@@ -31,38 +32,38 @@ class StudentProfile {
 
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = {
-      columnId: id,
-      columnemail: email,
-      columnfirstName: firstName,
-      columnuserType: userType,
-      columnbatchRank: batchRank,
-      columngender: gender,
-      columnisVerified: isVerified,
-      columncoins: coins,
-      columnmobile: mobile,
-      columnexperiencePoints: experiencePoints,
-      columndateOfBirth: dateOfBirth,
-      columnprofileImage: profileImage
+      cId: id,
+      cEmail: email,
+      cFirstName: firstName,
+      cUserType: userType,
+      cBatchRank: batchRank,
+      cGender: gender,
+      cIsVerified: isVerified,
+      cCoins: coins,
+      cMobile: mobile,
+      cExperiencePoints: experiencePoints,
+      cDateOfBirth: dateOfBirth,
+      cProfileImage: profileImage
     };
     if (id != null) {
-      map[columnId] = id;
+      map[cId] = id;
     }
     return map;
   }
 
   StudentProfile.fromMap(Map map) {
-    id = map[columnId];
-    email = map[columnemail];
-    firstName = map[columnfirstName];
-    userType = map[columnuserType];
-    batchRank = map[columnbatchRank];
-    gender = map[columngender];
-    isVerified = map[columnisVerified] == 1 ? true : false;
-    coins = map[columncoins];
-    mobile = map[columnmobile];
-    experiencePoints = map[columnexperiencePoints];
-    dateOfBirth = map[columndateOfBirth];
-    profileImage = map[columnprofileImage];
+    id = map[cId];
+    email = map[cEmail];
+    firstName = map[cFirstName];
+    userType = map[cUserType];
+    batchRank = map[cBatchRank];
+    gender = map[cGender];
+    isVerified = map[cIsVerified] == 1 ? true : false;
+    coins = map[cCoins];
+    mobile = map[cMobile];
+    experiencePoints = map[cExperiencePoints];
+    dateOfBirth = map[cDateOfBirth];
+    profileImage = map[cProfileImage];
   }
 
   StudentProfile();
@@ -85,56 +86,42 @@ class StudentProfile {
 class StudentProfileProvider {
   Database db;
 
-  Future open(String path) async {
-    db = await openDatabase(path, version: 2,
-        onCreate: (Database db, int version) async {
-      await db.execute('''
-create table $tableStudentProfile ( 
-  $columnId integer primary key autoincrement, 
-  $columnemail text not null,
-  $columnfirstName text,
-  $columnuserType text,
-  $columnbatchRank integer,
-  $columngender text,
-  $columnisVerified boolean,
-  $columncoins integer,
-  $columnmobile integer,
-  $columnexperiencePoints integer,
-  $columndateOfBirth text,
-  $columnprofileImage text not null)''');
-    });
+  StudentProfileProvider(_db) {
+    db = _db;
   }
 
   Future<StudentProfile> insert(StudentProfile studentProfile) async {
-    StudentProfile studentProfie = await getStudentProfile(studentProfile.id);
-    if (studentProfie == null) {
+    StudentProfile profile = await getStudentProfile(studentProfile.id);
+    if (profile == null) {
       await db.insert(tableStudentProfile, studentProfile.toMap());
+    } else {
+      update(studentProfile);
     }
     return studentProfile;
   }
 
   Future<int> getStudentProfileCount() async {
-    List<Map> maps = await db.query(tableStudentProfile, columns: [columnId]);
+    List<Map> maps = await db.query(tableStudentProfile, columns: [cId]);
     return maps.length;
   }
 
   Future<StudentProfile> getStudentProfile(int id) async {
     List<Map> maps = await db.query(tableStudentProfile,
         columns: [
-          columnId,
-          columnemail,
-          columnfirstName,
-          columnuserType,
-          columnbatchRank,
-          columngender,
-          columnisVerified,
-          columncoins,
-          columnmobile,
-          columnexperiencePoints,
-          columndateOfBirth,
-          columnprofileImage
+          cId,
+          cEmail,
+          cFirstName,
+          cUserType,
+          cBatchRank,
+          cGender,
+          cIsVerified,
+          cCoins,
+          cMobile,
+          cExperiencePoints,
+          cDateOfBirth,
+          cProfileImage
         ],
-        where: "$columnId = ?",
+        where: "$cId = ?",
         whereArgs: [id]);
     if (maps.length > 0) {
       return new StudentProfile.fromMap(maps.first);
@@ -144,12 +131,12 @@ create table $tableStudentProfile (
 
   Future<int> delete(int id) async {
     return await db
-        .delete(tableStudentProfile, where: "$columnId = ?", whereArgs: [id]);
+        .delete(tableStudentProfile, where: "$cId = ?", whereArgs: [id]);
   }
 
   Future<int> update(StudentProfile studentProfile) async {
     return await db.update(tableStudentProfile, studentProfile.toMap(),
-        where: "$columnId = ?", whereArgs: [studentProfile.id]);
+        where: "$cId = ?", whereArgs: [studentProfile.id]);
   }
 
   Future close() async => db.close();

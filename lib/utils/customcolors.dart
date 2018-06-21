@@ -5,6 +5,7 @@ class CustomColors {
   static const Color black_color = const Color.fromRGBO(63, 63, 63, 1.0);
   static const Color grey_color = const Color.fromRGBO(155, 155, 155, 1.0);
   static const Color pure_grey = const Color(0xFF9B9B9B);
+  static const Color pale_grey = const Color(0xFFf5f6f9);
   static const Color err_color = const Color(0xFFE35757);
   static const Color err_bg_color = const Color(0xFFFFEDED);
 }

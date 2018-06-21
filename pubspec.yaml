@@ -11,6 +11,7 @@ dependencies:
   cupertino_icons: ^0.1.0
   sqflite: any
   path_provider: "^0.4.1"
+  xml: "^3.0.0"
 
   #fullscreen_mode: "^1.0.1"
   
@@ -35,7 +36,15 @@ flutter:
     - assets/google.png
     - assets/ic_linkedin.png
     - assets/talentify_white.png
+    - assets/preview_image.png
 
+fonts:
+    - family: LatoRegular
+      fonts:
+        - asset: assets/fonts/Lato-Regular.ttf
+    - family: LatoBold
+      fonts:
+        - asset: assets/fonts/Lato-Bold.ttf
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg
