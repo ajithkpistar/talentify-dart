@@ -35,8 +35,7 @@ class DashBoardState extends State<DashBoard> {
 
     BottomNavigationBar botNavBar = BottomBarUtil.newBottomBar(0, context);
 
-    return new MaterialApp(
-        home: new Scaffold(
+    return new Scaffold(
       backgroundColor: CustomColors.pale_grey,
       appBar: new AppBar(
         backgroundColor: CustomColors.theme_color,
@@ -60,13 +59,13 @@ class DashBoardState extends State<DashBoard> {
             },
           )),
       bottomNavigationBar: botNavBar,
-    ));
+    );
   }
 }
 
 class MyExpansionTileList extends StatelessWidget {
   final List<Tasks> elementList;
-  BuildContext context;
+  BuildContext context1;
 
   MyExpansionTileList(this.elementList);
 
@@ -81,7 +80,7 @@ class MyExpansionTileList extends StatelessWidget {
           child: new RaisedButton(
               shape: new RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(30.0)),
-              onPressed: () => print("$element.id"),
+              onPressed: () => _opentasks(element),
               elevation: 3.0,
               color: CustomColors.theme_color,
               textColor: Colors.white,
@@ -142,7 +141,7 @@ class MyExpansionTileList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    this.context = context;
+    this.context1 = context;
     return new Center(
         child: new Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -152,5 +151,10 @@ class MyExpansionTileList extends StatelessWidget {
             child: new PageView(children: _getChildren()))
       ],
     ));
+  }
+
+  _opentasks(Tasks element) {
+    print(element.id);
+    Navigator.of(context1).pushNamed('/lessonplay');
   }
 }

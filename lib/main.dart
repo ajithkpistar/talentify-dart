@@ -1,4 +1,3 @@
-import 'package:android_istar_app/screens/lesson/lessonPlay.dart';
 import 'package:android_istar_app/utils/databaseUtil.dart';
 import 'package:flutter/material.dart';
 import 'routes.dart';
@@ -31,7 +30,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      home: new LessonPlay(),
+      home: _defaultHome,
       routes: routes,
       debugShowCheckedModeBanner: false,
     );

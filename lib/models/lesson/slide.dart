@@ -1,3 +1,6 @@
+import 'package:android_istar_app/models/lesson/slideInteractive.dart';
+import 'package:android_istar_app/models/lesson/slideUL.dart';
+
 class Slide {
   String background;
   String background_transition;
@@ -16,4 +19,6 @@ class Slide {
   String h2;
   String p;
   int duration;
+  SlideInteratctive interatctive;
+  SlideUL slideUL;
 }
