@@ -10,6 +10,8 @@ import 'package:xml/xml.dart' as xml;
 import 'package:xml/xml/nodes/document.dart';
 import 'package:xml/xml/nodes/element.dart';
 
+double screenHeight, screenWidth;
+
 class LessonPlay extends StatefulWidget {
   LessonPlayState createState() => new LessonPlayState();
 }
@@ -30,6 +32,8 @@ class LessonPlayState extends State<LessonPlay> {
 
   @override
   Widget build(BuildContext context) {
+    screenHeight = MediaQuery.of(context).size.height;
+    screenWidth = MediaQuery.of(context).size.width;
     SystemChrome.setEnabledSystemUIOverlays([]);
 
     List<Widget> _pages = new List();
@@ -48,7 +52,8 @@ class LessonPlayState extends State<LessonPlay> {
                 Iterable<XmlElement> lessons = document.findElements('lesson');
                 LessonUtil lessonUtil = new LessonUtil(lessons);
                 lesson = lessonUtil.createLessonObject();
-                LessonThemeUtil lessonThemeUtil = new LessonThemeUtil();
+                LessonThemeUtil lessonThemeUtil =
+                    new LessonThemeUtil(screenWidth, screenHeight);
                 try {
                   lesson.slideLists.forEach((slide) {
                     _pages.add(lessonThemeUtil.getPages(slide));

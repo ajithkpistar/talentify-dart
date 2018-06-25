@@ -5,6 +5,8 @@ import 'package:flutter/widgets.dart';
 
 class LessonThemeUtil {
   static const String LESSON_INTRODUCTION_CARD = "LESSON_INTRODUCTION_CARD";
+  double screenHeight, screenWidth;
+  LessonThemeUtil(this.screenWidth, this.screenHeight);
 
   Widget getPages(Slide slide) {
     Widget widget;
@@ -32,11 +34,82 @@ class LessonThemeUtil {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             new Expanded(
-                flex: 3,
+                flex: 4,
                 child: new Container(
-                    color: Colors.green, child: new Text(slide.template))),
+                    /* margin: const EdgeInsets.only(top: 20.0), */
+                    child: new Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    new SizedBox(
+                        height: 60.0,
+                        width: 60.0,
+                        child: new Image.asset("assets/talentify_white.png")),
+                    new Text("Sigma",
+                        style: new TextStyle(
+                            fontSize: 24.0,
+                            fontFamily: "LatoBold",
+                            color: Colors.white)),
+                    new Text("Phoneonix",
+                        style: new TextStyle(
+                            fontSize: 18.0,
+                            fontFamily: "LatoRegular",
+                            color: Colors.white))
+                  ],
+                ))),
             new Expanded(
-                flex: 3, child: new Container(child: new Text(slide.template))),
+                flex: 2,
+                child: new Container(
+                    child: new Column(children: <Widget>[
+                  new Divider(height: 2.0, color: Colors.white),
+                  new Expanded(
+                      child: new Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      new Expanded(
+                          flex: 49,
+                          child: new Container(
+                              color: Colors.transparent,
+                              child: new Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  new Text("65",
+                                      style: new TextStyle(
+                                          fontSize: 18.0,
+                                          fontFamily: "LatoBold",
+                                          color: Colors.white)),
+                                  new Text("High Score",
+                                      style: new TextStyle(
+                                          fontSize: 16.0,
+                                          fontFamily: "LatoRegular",
+                                          color: Colors.white))
+                                ],
+                              ))),
+                      new Expanded(
+                          child:
+                              new Container(width: 2.0, color: Colors.white70)),
+                      new Expanded(
+                          flex: 49,
+                          child: new Container(
+                              color: Colors.transparent,
+                              child: new Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  new Text("75/2000",
+                                      style: new TextStyle(
+                                          fontSize: 18.0,
+                                          fontFamily: "LatoBold",
+                                          color: Colors.white)),
+                                  new Text("Difficulty",
+                                      style: new TextStyle(
+                                          fontSize: 16.0,
+                                          fontFamily: "LatoRegular",
+                                          color: Colors.white))
+                                ],
+                              )))
+                    ],
+                  )),
+                  new Divider(height: 2.0, color: Colors.white)
+                ]))),
             new Expanded(
                 flex: 3,
                 child: new SingleChildScrollView(
@@ -47,21 +120,22 @@ class LessonThemeUtil {
             new Expanded(
                 flex: 1,
                 child: new Center(
-                  child: new RaisedButton(
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(5.0)),
-                      onPressed: () => print("on taped"),
-                      elevation: 3.0,
-                      color: Colors.white,
-                      textColor: Colors.white,
-                      child: new Text(
-                        "Next",
-                        style: new TextStyle(
-                            color: CustomColors.theme_color,
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.bold),
-                      )),
-                ))
+                    child: new Container(
+                        width: screenWidth * 0.8,
+                        child: new RaisedButton(
+                            shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(5.0)),
+                            onPressed: () => print("on taped"),
+                            elevation: 3.0,
+                            color: Colors.white,
+                            textColor: Colors.white,
+                            child: new Text(
+                              "Next",
+                              style: new TextStyle(
+                                  color: CustomColors.theme_color,
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.bold),
+                            )))))
           ],
         ));
   }
