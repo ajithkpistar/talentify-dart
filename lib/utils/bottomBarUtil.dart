@@ -65,20 +65,13 @@ class BottomBarUtil {
 }
 
 class NavigationIconView {
-  final Widget _icon;
-
-  final Color _color;
-  final String _title;
   final BottomNavigationBarItem item;
   NavigationIconView({
     Widget icon,
     Widget activeIcon,
     String title,
     Color color,
-  })  : _icon = icon,
-        _color = color,
-        _title = title,
-        item = new BottomNavigationBarItem(
+  }) : item = new BottomNavigationBarItem(
           icon: icon,
           title: new Text(title),
           backgroundColor: color,

@@ -62,8 +62,6 @@ class RolePageState extends State<RolePage> {
       bottomNavigationBar: botNavBar,
     ));
   }
-
-  void _handle() {}
 }
 
 class CustomIcon extends StatelessWidget {
@@ -95,9 +93,6 @@ class CustomInactiveIcon extends StatelessWidget {
 
 class MyExpansionTileList extends StatelessWidget {
   final List<Tasks> elementList;
-  BottomNavigationBar bottomNavigationBar;
-  BuildContext context;
-
   MyExpansionTileList(this.elementList);
 
   List<Widget> _getChildren() {
@@ -172,10 +167,8 @@ class MyExpansionTileList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    this.context = context;
-
 //
-    bottomNavigationBar = new BottomNavigationBar(
+    BottomNavigationBar bottomNavigationBar = new BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: 0,
         items: [

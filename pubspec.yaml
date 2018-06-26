@@ -37,6 +37,7 @@ flutter:
     - assets/ic_linkedin.png
     - assets/talentify_white.png
     - assets/preview_image.png
+    - assets/images/loading.gif
 
 fonts:
     - family: LatoRegular

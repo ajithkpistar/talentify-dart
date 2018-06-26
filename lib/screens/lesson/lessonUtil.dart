@@ -13,13 +13,13 @@ class LessonUtil {
   createLessonObject() {
     Lesson lesson = new Lesson();
     lesson.description = lessonsXML.first.getAttribute("description");
-    lesson.lesson_type = lessonsXML.first.getAttribute("lesson_type");
+    lesson.lessonType = lessonsXML.first.getAttribute("lesson_type");
 
     Iterable<XmlElement> audioXMLNode =
         lessonsXML.first.findAllElements("audio_url");
 
     try {
-      lesson.audio_url = audioXMLNode.first.text;
+      lesson.audioUrl = audioXMLNode.first.text;
     } catch (e) {
       print(e);
     }
@@ -33,13 +33,13 @@ class LessonUtil {
       Slide slide = new Slide();
       slide.background = slideobj.getAttribute("background");
       slide.fragmentCount = slideobj.getAttribute("fragmentCount");
-      slide.image_bg = slideobj.getAttribute("image_bg");
+      slide.imageBg = slideobj.getAttribute("image_bg");
       slide.slideType = slideobj.getAttribute("slideType");
       slide.template = slideobj.getAttribute("template");
-      slide.slide_audio = getElemtValue(slideobj, "slide_audio", "slide");
+      slide.slideAudio = getElemtValue(slideobj, "slide_audio", "slide");
       slide.imageUrl = getAttributeValue(slideobj, "img", "url");
       slide.id = int.parse(getElemtValue(slideobj, "id", "slide"));
-      slide.order_id = int.parse(getElemtValue(slideobj, "order_id", "slide"));
+      slide.orderId = int.parse(getElemtValue(slideobj, "order_id", "slide"));
       slide.p = getElemtValue(slideobj, "p", "slide");
       slide.duration = int.parse(getElemtValue(slideobj, "duration", "slide"));
       slide.h1 = getElemtValue(slideobj, "h1", "slide");
@@ -56,20 +56,20 @@ class LessonUtil {
         List<SlideLI> slideList = new List();
         for (XmlElement liObj in interactiveLIXML) {
           SlideLI slideLI = new SlideLI();
-          slideLI.destination_slide =
+          slideLI.destinationSlide =
               int.parse(liObj.getAttribute("destination_slide"));
-          slideLI.is_correct_opt =
+          slideLI.isCorrectOpt =
               liObj.getAttribute("is_correct_opt").toString() == "true"
                   ? true
                   : false;
           slideLI.coins = int.parse(liObj.getAttribute("coins"));
           slideLI.points = int.parse(liObj.getAttribute("points"));
-          slideLI.transition_type = liObj.getAttribute("transition_type");
+          slideLI.transitionType = liObj.getAttribute("transition_type");
           slideLI.description = getElemtValue(liObj, "description", "li");
-          slideLI.fragment_audio = getElemtValue(liObj, "fragment_audio", "li");
+          slideLI.fragmentAudio = getElemtValue(liObj, "fragment_audio", "li");
           slideLI.id = int.parse(getElemtValue(liObj, "id", "li"));
           slideLI.imageUrl = getAttributeValue(liObj, "img ", "url");
-          slideLI.fragment_duration =
+          slideLI.fragmentDuration =
               int.parse(getElemtValue(liObj, "fragment_duration", "li"));
           slideList.add(slideLI);
         }
@@ -77,18 +77,18 @@ class LessonUtil {
         interatctive.slideUL = slideUL;
         slide.interatctive = interatctive;
       } else {
-        Iterable<XmlElement> UlXML = slideobj.findAllElements("ul");
-        if (UlXML.length != 0) {
-          Iterable<XmlElement> lIXML = UlXML.first.findAllElements("li");
+        Iterable<XmlElement> ulXml = slideobj.findAllElements("ul");
+        if (ulXml.length != 0) {
+          Iterable<XmlElement> lIXML = ulXml.first.findAllElements("li");
           SlideUL slideUL = new SlideUL();
           List<SlideLI> slideList = new List();
           for (XmlElement liObj in lIXML) {
             SlideLI slideLI = new SlideLI();
             slideLI.description = getElemtValue(liObj, "description", "li");
-            slideLI.fragment_audio =
+            slideLI.fragmentAudio =
                 getElemtValue(liObj, "fragment_audio", "li");
             slideLI.id = int.parse(getElemtValue(liObj, "id", "li"));
-            slideLI.fragment_duration =
+            slideLI.fragmentDuration =
                 int.parse(getElemtValue(liObj, "fragment_duration", "li"));
             slideList.add(slideLI);
           }

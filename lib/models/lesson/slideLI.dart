@@ -1,14 +1,14 @@
 class SlideLI {
-  String list_type;
+  String listType;
   String description;
-  String fragment_audio;
+  String fragmentAudio;
   int id;
   String p;
-  int fragment_duration;
-  int destination_slide;
-  bool is_correct_opt;
+  int fragmentDuration;
+  int destinationSlide;
+  bool isCorrectOpt;
   int points;
-  String transition_type;
+  String transitionType;
   int coins;
   String imageUrl;
 }

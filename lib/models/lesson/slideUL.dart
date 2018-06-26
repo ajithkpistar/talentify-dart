@@ -1,7 +1,7 @@
 import 'package:android_istar_app/models/lesson/slideLI.dart';
 
 class SlideUL {
-  String merged_audio;
+  String mergedAudio;
   List<SlideLI> slideList;
-  bool is_multi_select;
+  bool isMultiSelect;
 }

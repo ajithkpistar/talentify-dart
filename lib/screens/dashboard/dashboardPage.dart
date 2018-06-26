@@ -65,11 +65,10 @@ class DashBoardState extends State<DashBoard> {
 
 class MyExpansionTileList extends StatelessWidget {
   final List<Tasks> elementList;
-  BuildContext context1;
 
   MyExpansionTileList(this.elementList);
 
-  List<Widget> _getChildren() {
+  List<Widget> _getChildren(BuildContext context) {
     List<Widget> children = [];
     elementList.forEach((element) {
       // print("id: " + element['id']);
@@ -80,7 +79,7 @@ class MyExpansionTileList extends StatelessWidget {
           child: new RaisedButton(
               shape: new RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(30.0)),
-              onPressed: () => _opentasks(element),
+              onPressed: () => _opentasks(element, context),
               elevation: 3.0,
               color: CustomColors.theme_color,
               textColor: Colors.white,
@@ -141,20 +140,19 @@ class MyExpansionTileList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    this.context1 = context;
     return new Center(
         child: new Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         new SizedBox(
             height: screenHeight - screenHeight * 0.3,
-            child: new PageView(children: _getChildren()))
+            child: new PageView(children: _getChildren(context)))
       ],
     ));
   }
 
-  _opentasks(Tasks element) {
+  _opentasks(Tasks element, BuildContext context) {
     print(element.id);
-    Navigator.of(context1).pushNamed('/lessonplay');
+    Navigator.of(context).pushNamed('/lessonplay');
   }
 }

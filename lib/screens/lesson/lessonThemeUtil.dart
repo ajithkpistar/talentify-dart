@@ -1,4 +1,5 @@
 import 'package:android_istar_app/models/lesson/slide.dart';
+import 'package:android_istar_app/screens/lesson/lessonPlay.dart';
 import 'package:android_istar_app/utils/customcolors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -6,7 +7,11 @@ import 'package:flutter/widgets.dart';
 class LessonThemeUtil {
   static const String LESSON_INTRODUCTION_CARD = "LESSON_INTRODUCTION_CARD";
   double screenHeight, screenWidth;
-  LessonThemeUtil(this.screenWidth, this.screenHeight);
+  BuildContext context;
+  LessonPlayState _lessonPlayState;
+
+  LessonThemeUtil(
+      this.screenWidth, this.screenHeight, this.context, this._lessonPlayState);
 
   Widget getPages(Slide slide) {
     Widget widget;
@@ -20,15 +25,23 @@ class LessonThemeUtil {
         widget = getDefaultSlide(slide);
         break;
     }
-    return widget;
+
+    return new GestureDetector(
+        onTap: () {
+          _lessonPlayState.setState(() {
+            _lessonPlayState.showBootomBar = !(_lessonPlayState.showBootomBar);
+          });
+          _lessonPlayState.showBottomSheet();
+        },
+        child: widget);
   }
 
   Widget getLessonIntroductionCard(Slide slide) {
     return new Container(
         decoration: new BoxDecoration(
             image: new DecorationImage(
-          image: new Image.network(slide.image_bg).image,
-          fit: BoxFit.cover,
+          image: new Image.network(slide.imageBg).image,
+          fit: BoxFit.scaleDown,
         )),
         child: new Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -36,7 +49,6 @@ class LessonThemeUtil {
             new Expanded(
                 flex: 4,
                 child: new Container(
-                    /* margin: const EdgeInsets.only(top: 20.0), */
                     child: new Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[

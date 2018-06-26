@@ -11,7 +11,7 @@ final String cDate = "date";
 final String cCompletedDate = "completedDate";
 final String cDuration = "duration";
 final String cItemId = "itemId";
-final String cContent_type = "content_type";
+final String cContentType = "content_type";
 final String cMessageForCompletedTasks = "messageForCompletedTasks";
 final String cMessageForIncompleteTasks = "messageForIncompleteTasks";
 final String cImageURL = "imageURL";
@@ -29,7 +29,7 @@ class Tasks {
   String title;
   String date;
   String completedDate;
-  String content_type;
+  String contentType;
   String messageForCompletedTasks;
   String messageForIncompleteTasks;
   String imageURL;
@@ -49,7 +49,7 @@ class Tasks {
       cCompletedDate: completedDate,
       cDuration: duration,
       cItemId: itemId,
-      cContent_type: content_type,
+      cContentType: contentType,
       cMessageForCompletedTasks: messageForCompletedTasks,
       cMessageForIncompleteTasks: messageForIncompleteTasks,
       cImageURL: imageURL,
@@ -72,7 +72,7 @@ class Tasks {
     completedDate = map[cCompletedDate];
     duration = map[cDuration];
     itemId = map[itemId];
-    content_type = map[cContent_type];
+    contentType = map[cContentType];
     messageForCompletedTasks = map[cMessageForCompletedTasks];
     messageForIncompleteTasks = map[cMessageForIncompleteTasks];
     imageURL = map[cImageURL];
@@ -90,7 +90,7 @@ class Tasks {
         completedDate = json['completedDate'],
         duration = json['duration'],
         itemId = json['itemId'],
-        content_type = json['content_type'],
+        contentType = json['content_type'],
         messageForCompletedTasks = json['messageForCompletedTasks'],
         imageURL = json['imageURL'],
         header = json['header'],
@@ -141,7 +141,7 @@ class TasksProvider {
           cCompletedDate,
           cDuration,
           cItemId,
-          cContent_type,
+          cContentType,
           cMessageForCompletedTasks,
           cMessageForIncompleteTasks,
           cImageURL,

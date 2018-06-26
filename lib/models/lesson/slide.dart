@@ -3,18 +3,18 @@ import 'package:android_istar_app/models/lesson/slideUL.dart';
 
 class Slide {
   String background;
-  String background_transition;
+  String backgroundTransition;
   String fragmentCount;
-  String image_bg;
+  String imageBg;
   String slideType;
   String template;
   String transition;
-  String slide_audio;
+  String slideAudio;
   int id;
   String imageUrl;
-  int order_id;
-  String student_notes;
-  String teacher_notes;
+  int orderId;
+  String studentNotes;
+  String teacherNotes;
   String h1;
   String h2;
   String p;
