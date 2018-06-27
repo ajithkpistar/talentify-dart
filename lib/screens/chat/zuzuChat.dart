@@ -2,13 +2,16 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:async';
+
 import 'package:android_istar_app/models/chat/aiAndroidResponse.dart';
 import 'package:android_istar_app/models/chat/aiBotAndroidAction.dart';
 import 'package:android_istar_app/utils/customcolors.dart';
+import 'package:android_istar_app/utils/recognizer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:speech_recognition/speech_recognition.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -178,16 +181,15 @@ class ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   final TextEditingController _textController = new TextEditingController();
   bool _isComposing = false;
 
-  SpeechRecognition _speech;
-
-  bool _speechRecognitionAvailable = false;
-  bool _isListening = false;
+  bool authorized = false;
   String transcription = '';
-  String _currentLocale = 'en_IN';
+  bool isListening = false;
+  bool get isNotEmpty => transcription != '';
 
   @override
   initState() {
     super.initState();
+    SpeechRecognizer.setMethodCallHandler(_platformCallHandler);
     activateSpeechRecognizer();
   }
 
@@ -406,53 +408,49 @@ class ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
     );
   }
 
-  void activateSpeechRecognizer() async {
-    //await SimplePermissions.requestPermission(Permission.RecordAudio);
+  Future _platformCallHandler(MethodCall call) async {
+    switch (call.method) {
+      case "onSpeechAvailability":
+        setState(() => isListening = call.arguments);
+        break;
+      case "onSpeech":
+        setState(() => transcription = call.arguments);
+        break;
+      case "onRecognitionStarted":
+        setState(() => isListening = true);
+        break;
+      case "onRecognitionComplete":
+        setState(() {
+          transcription = call.arguments;
+          _handleUserSubmitted(transcription);
+        });
 
-    _speech = new SpeechRecognition();
-    _speech.setAvailabilityHandler(onSpeechAvailability);
-    _speech.setCurrentLocaleHandler(onCurrentLocale);
-    _speech.setRecognitionStartedHandler(onRecognitionStarted);
-    _speech.setRecognitionResultHandler(onRecognitionResult);
-    _speech.setRecognitionCompleteHandler(onRecognitionComplete);
-    _speech
-        .activate()
-        .then((res) => setState(() => _speechRecognitionAvailable = res));
+        break;
+      default:
+        print('Unknowm method ${call.method} ');
+    }
   }
 
-  void startListening() =>
-      _speech.listen(locale: _currentLocale).then((result) => print(''));
+  Future startListening() async {
+    final res = await SpeechRecognizer.start("en_US");
+    if (!res)
+      showDialog(
+          context: context,
+          child: new SimpleDialog(title: new Text("Error"), children: [
+            new Padding(
+                padding: new EdgeInsets.all(12.0),
+                child: const Text('Recognition not started'))
+          ]));
+  }
 
-  void cancelListening() =>
-      _speech.cancel().then((result) => setState(() => _isListening = result));
-
-  void stopListening() =>
-      _speech.stop().then((result) => setState(() => _isListening = result));
-
-  void onSpeechAvailability(bool result) =>
-      setState(() => _speechRecognitionAvailable = result);
-
-  void onCurrentLocale(String locale) =>
-      setState(() => _currentLocale = locale);
-
-  void onRecognitionStarted() => setState(() => _isListening = true);
-
-  void onRecognitionResult(String text) => _recognRes(text);
-
-  void onRecognitionComplete() => _handleData();
-
-  _handleData() {
-    setState(() => _isListening = false);
+  void activateSpeechRecognizer() async {
+    //await SimplePermissions.requestPermission(Permission.RecordAudio);
+    final res = await SpeechRecognizer.activate();
+    setState(() => authorized = res);
   }
 
   startMicListening() {
     transcription = "";
     startListening();
-  }
-
-  _recognRes(String text) {
-    setState(() => transcription = text);
-    if (!_isListening) if (transcription.length != 0)
-      _handleUserSubmitted(transcription);
   }
 }

@@ -12,7 +12,7 @@ dependencies:
   sqflite: any
   path_provider: "^0.4.1"
   xml: "^3.0.0"
-  speech_recognition: "^0.2.0+1"
+  #speech_recognition: "^0.2.0+1"
   #simple_permissions: "^0.1.5"
 
 

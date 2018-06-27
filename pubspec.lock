@@ -310,13 +310,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.4.0"
-  speech_recognition:
-    dependency: "direct main"
-    description:
-      name: speech_recognition
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.0+1"
   sqflite:
     dependency: "direct main"
     description:
