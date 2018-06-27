@@ -8,4 +8,5 @@ class CustomColors {
   static const Color pale_grey = const Color(0xFFf5f6f9);
   static const Color err_color = const Color(0xFFE35757);
   static const Color err_bg_color = const Color(0xFFFFEDED);
+  static const Color bot_sender_color = const Color(0xFFfcbfbf);
 }

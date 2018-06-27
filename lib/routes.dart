@@ -1,3 +1,4 @@
+import 'package:android_istar_app/screens/chat/zuzuChat.dart';
 import 'package:android_istar_app/screens/dashboard/dashboardPage.dart';
 import 'package:android_istar_app/screens/lesson/lessonPlay.dart';
 import 'package:android_istar_app/screens/roles/rolePage.dart';
@@ -13,4 +14,5 @@ final routes = {
   '/dashBoard': (BuildContext context) => new DashBoard(),
   '/roles': (BuildContext context) => new RolePage(),
   '/lessonplay': (BuildContext context) => new LessonPlay(),
+  '/zuzuChat': (BuildContext context) => new ChatScreen(),
 };

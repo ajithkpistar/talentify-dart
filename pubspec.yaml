@@ -12,6 +12,9 @@ dependencies:
   sqflite: any
   path_provider: "^0.4.1"
   xml: "^3.0.0"
+  speech_recognition: "^0.2.0+1"
+  simple_permissions: "^0.1.5"
+
 
   #fullscreen_mode: "^1.0.1"
   
@@ -38,6 +41,8 @@ flutter:
     - assets/talentify_white.png
     - assets/preview_image.png
     - assets/images/loading.gif
+    - assets/images/chatbot.jpg
+    - assets/images/chat_bg_image.png
 
 fonts:
     - family: LatoRegular

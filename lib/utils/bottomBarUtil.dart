@@ -56,6 +56,9 @@ class BottomBarUtil {
             case 2:
               Navigator.of(context).pushReplacementNamed('/dashBoard');
               break;
+            case 4:
+              Navigator.of(context).pushReplacementNamed('/zuzuChat');
+              break;
             default:
           }
         }
