@@ -444,8 +444,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = talentify.androidIstarApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJ_INFERENCE=On;
-				SWIFT_VERSION=4.0;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
@@ -470,8 +469,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = talentify.androidIstarApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJ_INFERENCE=On;
-				SWIFT_VERSION=4.0;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};
