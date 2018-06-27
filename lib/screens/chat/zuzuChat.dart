@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:speech_recognition/speech_recognition.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:simple_permissions/simple_permissions.dart';
 
 class ChatScreen extends StatefulWidget {
   @override
@@ -408,7 +407,7 @@ class ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   }
 
   void activateSpeechRecognizer() async {
-    await SimplePermissions.requestPermission(Permission.RecordAudio);
+    //await SimplePermissions.requestPermission(Permission.RecordAudio);
 
     _speech = new SpeechRecognition();
     _speech.setAvailabilityHandler(onSpeechAvailability);
